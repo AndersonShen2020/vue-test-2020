@@ -4,7 +4,7 @@
 set -e
 
 # 打包
-# npm run build
+npm run build
 
 # 移動至到打包後的dist目錄 
 cd dist
