@@ -28,8 +28,8 @@ const routes = [
   },
 ];
 
-// const history = createWebHistory(process.env.BASE_URL);
-const history = createWebHashHistory();
+const history = createWebHistory(process.env.BASE_URL);
+// const history = createWebHashHistory();
 
 const router = createRouter({
   history,

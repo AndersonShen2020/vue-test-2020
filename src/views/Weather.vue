@@ -10,19 +10,9 @@ export default {
   },
   setup() {
     const store = useStore();
-    const locationIdx = ref(0);
-    let selected = reactive(0);
-    // weatherArr存放3個時段的天氣資料
+    let locationIdx = null;
+    /** weatherArr存放3個時段的天氣資料 */
     const weatherArr = reactive([]);
-
-    const weaTime = {
-      startTime1: "2021-01-01 00:00:00",
-      endTime1: "2021-01-01 00:00:00",
-      startTime2: "2021-01-01 00:00:00",
-      endTime2: "2021-01-01 00:00:00",
-      startTime3: "2021-01-01 00:00:00",
-      endTime3: "2021-01-01 00:00:00",
-    };
 
     // 三十六小時天氣預報物件原型
     const weather_36HR_ForecastData = {
@@ -60,9 +50,6 @@ export default {
       "Lienchiang", //連江縣 21
     ]);
 
-    // 在ApiTest.vue存放從selectArea塞選後的WeatherAPI資料
-    // const weaData = reactive({ data: {} });
-
     // 連線氣象API，掛在onMounted是為了在畫面一進去就直接進行
     const connectAPI = () => {
       store.dispatch("handApiInit");
@@ -72,12 +59,12 @@ export default {
       AOS.init();
     });
 
-    // 指定locationSelect來決定地區，從vuex篩選資料
+    /** 指定locationSelect來決定地區，從vuex篩選資料 */
     const selectArea = () => {
       console.log(
         "[Weather -> selectArea] 使用selectArea，指定locationIdx來從vuex篩選資料"
       );
-      store.dispatch("handSelectArea", locationIdx.value);
+      store.dispatch("handSelectArea", locationIdx);
     };
 
     // 從VUEX抓從API獲取的氣象資料
@@ -88,26 +75,16 @@ export default {
     const locationName = computed(() => store.getters.locationName);
     const weatherElement = computed(() => store.getters.weatherElement);
 
-    // 測試用，手動選定區間時間
-    const setWeatherTime = () => {
-      if (weatherElement.value.length > 0) {
-        weaTime.startTime1 = weatherElement.value[0].time[0].startTime;
-        weaTime.endTime1 = weatherElement.value[0].time[0].endTime;
-        weaTime.startTime2 = weatherElement.value[0].time[1].startTime;
-        weaTime.endTime2 = weatherElement.value[0].time[1].endTime;
-        weaTime.startTime3 = weatherElement.value[0].time[2].startTime;
-        weaTime.endTime3 = weatherElement.value[0].time[2].endTime;
-      }
-    };
-
-    //設定天氣資訊
+    /** 設定天氣資訊
+     * @param {Number} selected 選擇的地區編號，預設為0
+     */
     const setWeatherForecastData = (selected = 0) => {
       console.log(
         "[Weather -> setWeatherForecastData] 選擇的地區selected編號 =",
         selected
       );
       if (weatherElement.value.length > 0) {
-        console.log("[Weather -> setWeatherForecastData] selected =", selected);
+        // console.log("[Weather -> setWeatherForecastData] selected =", selected);
         let weaData = Object.create(weather_36HR_ForecastData);
 
         weaData.startTime = weatherElement.value[0].time[selected].startTime;
@@ -123,55 +100,50 @@ export default {
         weaData.MaxT =
           weatherElement.value[4].time[selected].parameter.parameterName;
 
-        console.log(
-          "[Weather -> setWeatherForecastData] 設定weaData的結果 =",
-          weaData
-        );
-        console.log(
-          "[Weather -> setWeatherForecastData] 將weaData加入weatherArr"
-        );
+        // console.log(
+        //   "[Weather -> setWeatherForecastData] 設定weaData的結果 =",
+        //   weaData
+        // );
+        // console.log(
+        //   "[Weather -> setWeatherForecastData] 將weaData加入weatherArr"
+        // );
         weatherArr.push(weaData);
       }
     };
 
-    // 在LOG中顯示資料
+    /** 往weatherArr設定氣象資料，重複三次 */
     const showData = () => {
       // console.log("locationName = ", locationName);
       while (weatherArr.length) {
         weatherArr.pop();
       }
-      setWeatherTime();
+
+      console.log(
+        "[Weather -> showData] ====== 開始加入資料到weatherArr ====== "
+      );
 
       for (let i = 0; i <= 2; i++) {
-        console.log(
-          "[Weather -> showData] ====== 開始加入資料到weatherArr ====== "
-        );
-
         setWeatherForecastData(i);
 
         console.log(
           `[Weather -> showData] 顯示第${i + 1}次加入weatherArr資料 =`,
           weatherArr
         );
-        console.log(
-          "[Weather -> showData] ====== 結束加入資料到weatherArr ====== "
-        );
       }
+      console.log(
+        "[Weather -> showData] ====== 結束加入資料到weatherArr ====== "
+      );
     };
 
-    // 接收從SvgMao.vue用emit傳過來的資料 + 如何處理資料
-    let localName = ref("");
+    /** 接收從SvgMao.vue用emit傳過來的資料 + 如何處理資料 */
     const location = (local) => {
       console.log("[Weather -> location] 接收到emit傳遞的資料");
       console.log("---- 執行 location -----");
       console.log("[Weather -> location] emit傳遞的資料 =", local);
-      console.log("[Weather -> location] 設定localName");
-      localName.value = local;
-      console.log("[Weather -> location] 設定localName完成 =", localName.value);
-      locationIdx.value = locationSelect.indexOf(local);
+      locationIdx = locationSelect.indexOf(local);
       console.log(
-        "[Weather -> location] 設定locationIdx.value完成，locationIdx.value =",
-        locationIdx.value
+        "[Weather -> location] 設定locationIdx完成，locationIdx =",
+        locationIdx
       );
       selectArea();
       showData();
@@ -179,7 +151,7 @@ export default {
     };
 
     // watch(selected, () => setWeatherForecastData(selected));
-    // watch(locationIdx.value, () => selectArea());
+    // watch(locationIdx, () => selectArea());
 
     return {
       datasetDescription,
