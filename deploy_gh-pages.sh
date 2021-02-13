@@ -11,7 +11,7 @@ cd dist
 git init 
 # //因為dist資料夾預設是被ignore的，因此在進入dist資料夾後初始化git
 git add -A
-git commit -m 'deploy'
+git commit -m '使用 deploy_gh-pages.sh 上傳網頁到 github'
 # 部署到 https://github.com/chou0728/eric-project.git 分支為 gh-pages
 git push -f "https://github.com/AndersonShen2020/vue-test-2020.git" master:gh-pages
 # //將dist資料夾中的內容推送至遠端eric-project的gh-pages分支中，並強制無條件將舊有的內容取代成目前的內容（指令 git push -f)
