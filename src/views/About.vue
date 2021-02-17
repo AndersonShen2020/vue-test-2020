@@ -1,6 +1,17 @@
 <script>
-import { ref, reactive, onBeforeUpdate, onUpdated, nextTick } from "vue";
-import { createApp } from "vue";
+import {
+  ref,
+  reactive,
+  onBeforeUpdate,
+  onUpdated,
+  nextTick,
+  computed,
+  onMounted,
+  watchEffect,
+  watch,
+  onBeforeUnmount,
+  onUnmounted,
+} from "vue";
 import device from "current-device";
 export default {
   setup() {
@@ -22,22 +33,22 @@ export default {
     // };
     // test.clog();
 
-    let y = null;
-    let aaa = (x) => {
-      console.log("x = ", x);
-      return x;
-    };
-    let a1 = aaa(111);
-    let a2 = aaa(222);
-    let bbb = [a1, a2];
-    bbb.push(33);
-    bbb.push(44);
-    let ccc = { name: "" };
-    bbb.push((ccc["name"] = "zzz"));
-    bbb.push((ccc["name"] = "yyy"));
-    console.log("aaa = ", aaa);
-    console.log("bbb = ", bbb);
-    console.log("ccc = ", ccc);
+    // let y = null;
+    // let aaa = (x) => {
+    //   console.log("x = ", x);
+    //   return x;
+    // };
+    // let a1 = aaa(111);
+    // let a2 = aaa(222);
+    // let bbb = [a1, a2];
+    // bbb.push(33);
+    // bbb.push(44);
+    // let ccc = { name: "" };
+    // bbb.push((ccc["name"] = "zzz"));
+    // bbb.push((ccc["name"] = "yyy"));
+    // console.log("aaa = ", aaa);
+    // console.log("bbb = ", bbb);
+    // console.log("ccc = ", ccc);
 
     const nowTimer = new Date();
     console.log("device.desktop() = ", device.desktop());
@@ -47,8 +58,6 @@ export default {
 
     return {
       nowTimer,
-      height,
-      width,
     };
   },
 };
@@ -58,13 +67,6 @@ export default {
   <h1>This is SVG component testpage</h1>
   <div class="about">
     <div class="timer">time : {{ nowTimer.toString() }}</div>
-  </div>
-  <div class="common-layout">
-    <el-container>
-      <el-header>Header</el-header>
-      <el-main>Main</el-main>
-      <el-footer>Footer</el-footer>
-    </el-container>
   </div>
 </template>
 

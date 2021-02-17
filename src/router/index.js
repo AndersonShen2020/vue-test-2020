@@ -19,7 +19,12 @@ const routes = [
   {
     path: "/Weather",
     name: "Weather",
-    component: () => import("../views/Weather.vue"),
+    component: () => import("../views/Weather/index.vue"),
+  },
+  {
+    path: "/Table",
+    name: "Table",
+    component: () => import("../views/Table/index.vue"),
   },
   {
     path: "/:pathMatch(.*)",
