@@ -27,6 +27,11 @@ const routes = [
     component: () => import("../views/Table/index.vue"),
   },
   {
+    path: "/TodoList",
+    name: "TodoList",
+    component: () => import("../views/TodoList/index.vue"),
+  },
+  {
     path: "/:pathMatch(.*)",
     name: "ERROR",
     component: () => import("../views/Error.vue"),
