@@ -1,9 +1,12 @@
 <script>
-import { h, createApp } from "vue";
+import { ref, h, createApp } from "vue";
 
 // -------------------------------- render + click -----------------------------------------
+
+let count = ref(0);
 let renderClick = () => {
   console.log("renderClick");
+  count.value += 1;
 };
 const app = createApp({
   render() {
@@ -11,7 +14,7 @@ const app = createApp({
     const templeteRender = h(
       "button",
       { class: "btn", onclick: renderClick },
-      "你好" + hname
+      "按一下增加count"
     );
     return templeteRender;
   },
@@ -24,13 +27,14 @@ setTimeout(() => {
 // -------------------------------- render + click -----------------------------------------
 export default {
   setup() {
-    return {};
+    return { count };
   },
 };
 </script>
 
 <template>
   <div class="render">3秒後轉換</div>
+  <div class="count">count : {{ count }}</div>
 </template>
 
 <style></style>
