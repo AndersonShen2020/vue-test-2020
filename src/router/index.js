@@ -12,9 +12,9 @@ const routes = [
     component: Home,
   },
   {
-    path: "/about",
-    name: "About",
-    component: () => import("../views/About.vue"),
+    path: "/Test",
+    name: "Test",
+    component: () => import("../views/Test.vue"),
   },
   {
     path: "/Weather",
@@ -30,6 +30,11 @@ const routes = [
     path: "/TodoList",
     name: "TodoList",
     component: () => import("../views/TodoList/index.vue"),
+  },
+  {
+    path: "/ReRender",
+    name: "ReRender",
+    component: () => import("../views/ReRender/index.vue"),
   },
   {
     path: "/:pathMatch(.*)",
